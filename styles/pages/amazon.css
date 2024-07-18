@@ -130,7 +130,7 @@
   flex: 1;
 }
 
-.added-to-cart {
+.add-cart-msg {
   color: rgb(6, 125, 98);
   font-size: 16px;
 
@@ -143,6 +143,13 @@
      opacity and make it visible. */
   opacity: 0;
 }
+
+.added-cart-msg{
+  opacity: 1;
+}
+
+
+
 
 .added-to-cart img {
   height: 20px;
