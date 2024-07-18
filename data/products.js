@@ -656,5 +656,31 @@ const products = [
       "apparel",
       "mens"
     ]
+  },{
+    id: "id1",
+    image: "images/products/backpack.jpg",
+    name: "Men's Full-Zip Hooded Fleece Sweatshirt",
+    rating: {
+      stars: 4.5,
+      count: 548
+    },
+    priceCents: 1365,
+    keywords: [
+      "bags",
+      "packs",
+      "mens",
+    ]
+  },{
+    id: "id2",
+    image: "images/products/umbrella.jpg",
+    name: "Umbrella",
+    rating: {
+      stars: 4.5,
+      count: 4012
+    },
+    priceCents: 2323,
+    keywords: [
+      "uni"
+    ]
   }
 ];
