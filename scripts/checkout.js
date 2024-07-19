@@ -34,7 +34,7 @@ cart.forEach((cartItem) => {
                   <span>
                     Quantity: <span class="quantity-label">${quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary js-update-btn " data-product-id ="${productId}">
+                  <span class="update-quantity-link link-primary js-update-btn" data-product-id ="${productId}">
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary js-delete-btn" data-product-id = "${productId}">
@@ -97,23 +97,43 @@ cartItemContainer.innerHTML = cartHtml;
 document.querySelector(".return-to-home-link").innerHTML =
   displayCartCount() + " items";
 
-document.querySelectorAll(".js-update-btn").forEach((updateBtn) => {
-  updateBtn.addEventListener("click", () => {
-    const { productId } = updateBtn.dataset;
-    const quantityHtml = `Quantity : 
-            <input type="text" name="quantity" class="js-quantity-input-${productId}">
-             <span class="update-quantity-link link-primary js-save-${productId}" data-product-id ="${productId}">
-                    Save
-                </span>
-                  <span class="delete-quantity-link link-primary js-delete-btn" data-product-id = "${productId}">
-                    Delete
+//adding update btn event listener for the initial cart page loaded
+displayUpdate();
+function displayUpdate() {
+  document.querySelectorAll(".js-update-btn").forEach((updateBtn) => {
+    updateBtn.addEventListener("click", () => {
+      const { productId } = updateBtn.dataset;
+      const quantityHtml = `Quantity : 
+              <input type="text" name="quantity" class="input-quantity js-quantity-input-${productId}">
+               <span class="update-quantity-link link-primary js-save-${productId}" data-product-id ="${productId}">
+                      Save
                   </span>
-            `;
-    document.querySelector(`.js-quantity-${productId}`).innerHTML =
-      quantityHtml;
-    updateQuantity(productId);
+                    <span class="delete-quantity-link link-primary js-delete-btn" data-product-id = "${productId}">
+                      Delete
+                    </span>
+              `;
+      document.querySelector(`.js-quantity-${productId}`).innerHTML =
+        quantityHtml;
+      updateQuantity(productId);
+    });
   });
-});
+}
+
+//adding a delete btn event listener for initial cart page loaded
+deleteCartItem();
+
+function deleteCartItem() {
+  document.querySelectorAll(".js-delete-btn").forEach((deleteBtn) => {
+    deleteBtn.addEventListener("click", () => {
+      const { productId } = deleteBtn.dataset;
+      removeCartItem(productId);
+      document.querySelector(`.js-cart-container-${productId}`).remove();
+      document.querySelector(".return-to-home-link").innerHTML =
+        displayCartCount() + " items";
+      saveToStorage();
+    });
+  });
+}
 
 function updateQuantity(productId) {
   const quantitySaveBtn = document.querySelector(`.js-save-${productId}`);
@@ -142,15 +162,9 @@ function updateQuantity(productId) {
 
     document.querySelector(".return-to-home-link").innerHTML =
       displayCartCount() + " items";
+
+    //after changing the dom of update and delete btn then again add the event listener to the two buttons
+    displayUpdate();
+    deleteCartItem();
   });
 }
-
-document.querySelectorAll(".js-delete-btn").forEach((deleteBtn) => {
-  deleteBtn.addEventListener("click", () => {
-    const { productId } = deleteBtn.dataset;
-    removeCartItem(productId);
-    document.querySelector(`.js-cart-container-${productId}`).remove();
-    document.querySelector(".return-to-home-link").innerHTML =
-      displayCartCount() + " items";
-  });
-});

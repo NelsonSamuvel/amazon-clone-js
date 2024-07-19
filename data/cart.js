@@ -25,7 +25,6 @@ export function addToCart(productId){
   }
 
 export function removeCartItem(productId) {
-  console.log("sda");
   cart = cart.filter(cartItem => cartItem.productId !== productId);
   saveToStorage();
   return cart;
