@@ -38,3 +38,11 @@ export function displayCartCount() {
   });
   return cartItems;
 }
+
+
+export function updateDeliveryOptions(productId,deliveryId){
+  const foundCartItem = cart.find(item => item.productId === productId);
+  foundCartItem.deliveryId = deliveryId;
+  saveToStorage();
+
+}
