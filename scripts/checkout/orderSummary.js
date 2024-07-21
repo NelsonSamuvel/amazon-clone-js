@@ -1,10 +1,5 @@
-import {
-    cart,
-    removeCartItem,
-    displayCartCount,
-    saveToStorage,
-    updateDeliveryOptions
-  } from "../../data/cart.js";
+  import { Cart } from "../../data/cart-class.js";
+  
   import { products } from "../../data/products.js";
   import { formatCurrency } from "../utils/money.js";
   import { formatDate } from "../utils/dates.js";
@@ -14,6 +9,9 @@ import {
   import { displayCheckoutQuantity } from "./checkoutHeader.js";
   
   
+
+  const cart= new Cart('cart');
+
   
  export function renderOrderSummary(){
     
@@ -22,7 +20,7 @@ import {
   const cartItemContainer = document.querySelector(".order-summary");
   
   let cartHtml = "";
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     const { productId, quantity } = cartItem;
     const findProduct = products.find((product) => product.id === productId);
   
@@ -30,7 +28,7 @@ import {
    
   
     if (findProduct) {
-      cartHtml += `<div class="cart-item-container js-cart-container-${productId}">
+      cartHtml += `<div class="cart-item-container js-cart-container js-cart-container-${productId}">
               
               <div class="delivery-date js-delivery-date-${productId}">
                Delivery Date : ${formatDate(foundDelivery.deliveryTime)}
@@ -40,7 +38,7 @@ import {
                 <img class="product-image"
                   src="${findProduct.image}">
   
-                <div class="cart-item-details">
+                <div class="cart-item-details js-product-${productId}">
                   <div class="product-name">
                     ${findProduct.name}
                   </div>
@@ -54,7 +52,7 @@ import {
                     <span class="update-quantity-link link-primary js-update-btn" data-product-id ="${productId}">
                       Update
                     </span>
-                    <span class="delete-quantity-link link-primary js-delete-btn" data-product-id = "${productId}">
+                    <span class="delete-quantity-link js-delete-${productId} link-primary js-delete-btn" data-product-id = "${productId}">
                       Delete
                     </span>
                   </div>
@@ -71,6 +69,8 @@ import {
     }
   });
   
+  
+  cartItemContainer.innerHTML = cartHtml;
   
   
   function deliveryOptionsHtml(productId,cartItem){
@@ -110,7 +110,6 @@ import {
   
   }
   
-  cartItemContainer.innerHTML = cartHtml;
   
   
   
@@ -146,11 +145,11 @@ import {
     document.querySelectorAll(".js-delete-btn").forEach((deleteBtn) => {
       deleteBtn.addEventListener("click", () => {
         const { productId } = deleteBtn.dataset;
-        removeCartItem(productId);
+        cart.removeCartItem(productId);
         renderOrderSummary();
         document.querySelector(".return-to-home-link").innerHTML =
-          displayCartCount() + " items";
-        saveToStorage();
+          cart.displayCartCount() + " items";
+        cart.saveToStorage();
         renderPaymentSummary();
       });
     });
@@ -165,7 +164,7 @@ import {
       if (newQuantity <= 0 || newQuantity > 100) {
         return;
       }
-      cart.forEach((cartItem) => {
+      cart.cartItems.forEach((cartItem) => {
         if (cartItem.productId === productId) {
           cartItem.quantity = newQuantity;
         }
@@ -195,7 +194,7 @@ import {
     btn.addEventListener('click',()=>{
   
       const {productId,deliveryId} = btn.dataset;
-      updateDeliveryOptions(productId,deliveryId);
+      cart.updateDeliveryOptions(productId,deliveryId);
       renderOrderSummary();
       renderPaymentSummary();
     })
