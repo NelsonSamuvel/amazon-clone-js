@@ -16,4 +16,12 @@ export function formatDate(days) {
     }
   }
   return today.format("dddd, MMMM D");
+  
+}
+
+
+export function formatOrderDate(orderTime){
+  let day = dayjs(orderTime);
+  day = day.format('MMMM, DD');
+  return day;
 }

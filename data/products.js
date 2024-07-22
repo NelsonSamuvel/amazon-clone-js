@@ -96,6 +96,8 @@ export function fetchProducts(){
 }
 
 
+
+
 // export function loadProducts(loadFunc){
 //   const xhr = new XMLHttpRequest();
 //   xhr.addEventListener('load',()=>{
