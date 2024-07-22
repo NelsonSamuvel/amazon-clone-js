@@ -1,6 +1,6 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 
-class Products{
+export class Products{
   id;
   image;
   name;
@@ -24,7 +24,54 @@ class Products{
     return `$${formatCurrency(this.priceCents)}`;
   }
 
+
+  infoHtml(){
+    return '';
+  }
+
 }
+
+
+export class Clothing extends Products{
+
+  sizeChartLink;
+
+  constructor(productDetails){
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  infoHtml(){
+    
+    return `<a href="${this.sizeChartLink}" target="_blank">Size Chart</a>`
+  }
+
+}
+
+
+export class Appliance extends Products{
+  instructionLink;
+  warrantyLink;
+
+
+  constructor(productDetails){
+    console.log(productDetails.instructionLink);
+    console.log(productDetails.warrantyLink);
+    super(productDetails);
+    this.instructionLink = productDetails.instructionLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+
+  infoHtml(){
+    return `<div>
+      <a href = "${this.instructionLink}" target="_blank">Instruction Link</a>
+      <a href = "${this.warrantyLink}" target = "_blank">Warranty Link</a>  
+    </div>`
+  }
+
+}
+
+
 
 
 
@@ -84,6 +131,11 @@ export const products = [
       count: 2197
     },
     priceCents: 1899,
+    type : "appliance",
+    instructionLink : "images/appliance-instructions.png",
+    warrantyLink : "images/appliance-warranty.png",
+
+
     keywords: [
       "toaster",
       "kitchen",
@@ -268,6 +320,10 @@ export const products = [
       stars: 5,
       count: 846
     },
+    type : "appliance",
+    instructionLink : "images/appliance-instructions.png",
+    warrantyLink : "images/appliance-warranty.png",
+
     priceCents: 3074,
     keywords: [
       "water boiler",
@@ -633,6 +689,10 @@ export const products = [
       stars: 4,
       count: 3
     },
+    type : "appliance",
+    instructionLink : "images/appliance-instructions.png",
+    warrantyLink : "images/appliance-warranty.png",
+
     priceCents: 10747,
     keywords: [
       "food blenders",
@@ -713,5 +773,15 @@ export const products = [
       "uni"
     ]
   }
-].map(product => new Products(product));
+].map(product => {
+  if(product.type === "appliance"){
+    return new Appliance(product);
+  }
+  if(product.type === "clothing"){
+    return new Clothing(product)
+  }
+  return new Products(product);
+})
+
+console.log(products);
 

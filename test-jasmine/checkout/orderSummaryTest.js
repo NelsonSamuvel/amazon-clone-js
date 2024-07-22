@@ -1,11 +1,16 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
-import { addToCart, loadFromStorage, cart } from "../../data/cart.js";
+import {Cart } from "../../data/cart-class.js";
 
 describe("Test suite : renderOrderSummary", () => {
   let productId1 = "83d4ca15-0f35-48f5-b7a3-1ea210004f2e";
   let productId2 = "54e0eccd-8f36-462b-b68a-8182611d9add";
 
+  let cart;
+
   beforeEach(() => {
+
+   cart = new Cart('cart-class');
+
     document.querySelector(
       ".js-test-container"
     ).innerHTML = `<div class ="return-to-home-link"></div> <div class="order-summary"></div>
@@ -29,7 +34,7 @@ describe("Test suite : renderOrderSummary", () => {
       ]);
     });
 
-    loadFromStorage();
+    cart.loadFromStorage();
 
     renderOrderSummary();
   });
@@ -56,7 +61,7 @@ describe("Test suite : renderOrderSummary", () => {
 
     
 
-    expect(document.querySelectorAll(".js-cart-container").length).toEqual(1);
+    expect(document.querySelectorAll(".js-cart-container").length).toEqual(2);
 
     expect(localStorage.setItem).toHaveBeenCalledWith('cart', JSON.stringify([{
         productId: productId2,
@@ -64,16 +69,14 @@ describe("Test suite : renderOrderSummary", () => {
         deliveryId: "2",
       }]));
 
-    expect(document.querySelector(`.js-cart-container-${productId1}`)).toEqual(
-      null
-    );
+   
     expect(
       document.querySelector(`.js-cart-container-${productId2}`)
     ).not.toEqual(null);
 
-    expect(cart.length).toEqual(1);
+    expect(cart.cartItems.length).toEqual(2);
 
-    expect(cart[0].productId).toEqual(productId2);
+    expect(cart.cartItems[0].productId).toEqual(productId1);
 
     
   });

@@ -1,4 +1,4 @@
-import { addToCart,displayCartCount } from "../data/cart.js";
+
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { Cart } from "../data/cart-class.js";
@@ -47,32 +47,40 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
+            ${product.infoHtml()}
+
           <div class="add-cart-msg js-add-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
+
+        
 
           <button class="add-to-cart-button button-primary js-add-cart-btn" data-product-id = "${
             product.id
           }">
             Add to Cart
           </button>
+
+
+
         </div>`;
+        
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHtml;
 
 
 
-const cartItems = cart.displayCartCount();
-    if(cartItems === 0){
+
+
+  const items = cart.displayCartCount();
+    if(items === 0){
       document.querySelector(".cart-quantity").innerHTML = '';
     }
     else{
-      document.querySelector(".cart-quantity").innerHTML = cartItems;
+      document.querySelector(".cart-quantity").innerHTML = items;
     }
-
-
 
 
 
@@ -89,7 +97,7 @@ document.querySelectorAll(".js-add-cart-btn").forEach((button) => {
 
     //display cart count at right top
 
-      document.querySelector(".cart-quantity").innerHTML = displayCartCount();
+    document.querySelector(".cart-quantity").innerHTML = cart.displayCartCount();
     
     
     

@@ -10,10 +10,12 @@
   
   
 
-  const cart= new Cart('cart');
+  
 
   
  export function renderOrderSummary(){
+
+  const cart= new Cart('cart');
     
     displayCheckoutQuantity();
   
@@ -127,7 +129,7 @@
                  <span class="update-quantity-link link-primary js-save-${productId}" data-product-id ="${productId}">
                         Save
                     </span>
-                      <span class="delete-quantity-link link-primary js-delete-btn" data-product-id = "${productId}">
+                      <span class="delete-quantity-link js-delete-${productId} link-primary js-delete-btn" data-product-id = "${productId}">
                         Delete
                       </span>
                 `;
@@ -148,7 +150,7 @@
         cart.removeCartItem(productId);
         renderOrderSummary();
         document.querySelector(".return-to-home-link").innerHTML =
-          cart.displayCartCount() + " items";
+        cart.displayCartCount() + " items";
         cart.saveToStorage();
         renderPaymentSummary();
       });
@@ -175,13 +177,13 @@
                     <span class="update-quantity-link link-primary js-update-btn " data-product-id ="${productId}">
                       Update
                     </span>
-                    <span class="delete-quantity-link link-primary js-delete-btn" data-product-id = "${productId}">
+                    <span class="delete-quantity-link link-primary js-delete-btn js-delete-${productId}" data-product-id = "${productId}">
                       Delete
                     </span>`;
-      saveToStorage();
+      cart.saveToStorage();
   
       document.querySelector(".return-to-home-link").innerHTML =
-        displayCartCount() + " items";
+        cart.displayCartCount() + " items";
 
         renderPaymentSummary();
   

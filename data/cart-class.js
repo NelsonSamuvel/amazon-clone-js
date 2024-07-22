@@ -2,20 +2,20 @@
 
 export class Cart {
   cartItems;
-  #localKey;
+  localKey;
 
 
   constructor(localKey){
-    this.#localKey = localKey;
+    this.localKey = localKey;
 
-    this.#loadFromStorage();
+    this.loadFromStorage();
   }
 
-  #loadFromStorage(){
-    this.cartItems = JSON.parse(localStorage.getItem(this.#localKey)) ||  [];
+  loadFromStorage(){
+    this.cartItems = JSON.parse(localStorage.getItem(this.localKey)) ||  [];
   }
   saveToStorage(){
-    localStorage.setItem(this.#localKey,JSON.stringify(this.cartItems));
+    localStorage.setItem(this.localKey,JSON.stringify(this.cartItems));
   }
   addToCart(productId){
     // const quantity = Number(document.querySelector(`.js-quantity-${productId}`).value);
@@ -32,6 +32,8 @@ export class Cart {
         this.cartItems.push({ productId, quantity : 1 , deliveryId: '1' });
       }
 
+      console.log(this.cartItems);
+
       this.saveToStorage();
   }
   removeCartItem(productId) {
@@ -44,6 +46,7 @@ export class Cart {
     this.cartItems.forEach((item) => {
       items += item.quantity;
     });
+    console.log("added");
     return items;
   }
 

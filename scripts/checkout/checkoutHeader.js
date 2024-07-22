@@ -1,6 +1,11 @@
-import { displayCartCount } from "../../data/cart.js";
+import { Cart } from "../../data/cart-class.js";
+
+
 
 export function displayCheckoutQuantity(){
+
+    const cart = new Cart('cart');
+
     document.querySelector(".return-to-home-link").innerHTML =
-    displayCartCount() + " items";
+    cart.displayCartCount() + " items";
 }
