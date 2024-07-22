@@ -1,12 +1,13 @@
 
-import { loadProducts,products } from "../data/products.js";
+import { fetchProducts,products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { Cart } from "../data/cart-class.js";
 
 
 
 
-loadProducts(renderProducts);
+
+fetchProducts().then(renderProducts);
 
 function renderProducts(){
   const cart = new Cart('cart');

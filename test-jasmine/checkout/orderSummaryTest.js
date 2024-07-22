@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import {Cart } from "../../data/cart-class.js";
-import { loadProducts } from "../../data/products.js";
+import { fetchProducts } from "../../data/products.js";
 
 describe("Test suite : renderOrderSummary", () => {
   let productId1 = "83d4ca15-0f35-48f5-b7a3-1ea210004f2e";
@@ -9,9 +9,7 @@ describe("Test suite : renderOrderSummary", () => {
   let cart;
 
   beforeAll((done)=>{
-    loadProducts(()=>{
-      done();
-    });
+   fetchProducts().then(done);
   })
 
   beforeEach(() => {
