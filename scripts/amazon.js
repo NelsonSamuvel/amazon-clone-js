@@ -1,11 +1,15 @@
 
-import { products } from "../data/products.js";
+import { loadProducts,products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { Cart } from "../data/cart-class.js";
 
 
-const cart = new Cart('cart');
 
+
+loadProducts(renderProducts);
+
+function renderProducts(){
+  const cart = new Cart('cart');
 
 let productsHtml = "";
 products.forEach((product) => {
@@ -125,5 +129,8 @@ function displayAddedMsg(productId){
 
   document.querySelector(`.js-add-cart-${productId}`).classList.add('added-cart-msg');
 }
+
+}
+
 
 

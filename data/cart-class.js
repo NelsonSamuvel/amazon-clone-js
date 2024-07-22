@@ -46,7 +46,6 @@ export class Cart {
     this.cartItems.forEach((item) => {
       items += item.quantity;
     });
-    console.log("added");
     return items;
   }
 
