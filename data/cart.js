@@ -55,3 +55,10 @@ export function loadCart() {
     .then((data) => console.log(data));
   return promise;
 }
+
+
+export async function loadCartFetch(){
+  const response = await fetch("https://supersimplebackend.dev/cart");
+  const data = await response.text();
+  console.log(data);
+}

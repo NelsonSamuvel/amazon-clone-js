@@ -4,13 +4,17 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { fetchProducts, products } from "../data/products.js";
 import { Cart } from "../data/cart-class.js";
 import { formatOrderDate } from "./utils/dates.js";
-
+import { loadCartFetch } from "../data/cart.js";
 
 
 console.log(orders);
 
 
-fetchProducts().then(renderOrderPage)
+fetchProducts().then(renderOrderPage);
+
+
+loadCartFetch();
+
 
 
 
@@ -54,6 +58,16 @@ orders.forEach(order => {
 
 document.querySelector('.orders-grid').innerHTML = orderContainerHtml;
 
+document.querySelectorAll('.js-buy-btn').forEach(btn => {
+    btn.addEventListener('click',()=>{
+        const {productId} = btn.dataset;
+        cart.addToCart(productId);
+        renderOrderPage();
+    })
+})
+
+
+
  function orderProductsDisplay(order){
 
 
@@ -78,7 +92,7 @@ document.querySelector('.orders-grid').innerHTML = orderContainerHtml;
               <div class="product-quantity">
                 Quantity: ${orderProduct.quantity}
               </div>
-              <button class="buy-again-button button-primary">
+              <button class="buy-again-button button-primary js-buy-btn" data-product-id = ${orderProduct.productId}>
                 <img class="buy-again-icon" src="images/icons/buy-again.png">
                 <span class="buy-again-message">Buy it again</span>
               </button>

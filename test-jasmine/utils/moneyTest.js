@@ -11,7 +11,7 @@ describe("test suite : Format Currency", () => {
   })
 
   it("rounds the cents" ,()=>{
-    expect(formatCurrency(2000.5)).toEqual('20.00');
+    expect(formatCurrency(2000.5)).toEqual('20.01');
 
     expect(formatCurrency(2000.4)).toEqual(`20.00`);
 

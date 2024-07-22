@@ -1,20 +1,41 @@
-
-import { fetchProducts,products } from "../data/products.js";
+import { fetchProducts, products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { Cart } from "../data/cart-class.js";
 
+fetchProducts().then(() => {
+  renderProducts();
+});
 
+const cart = new Cart("cart");
 
+document.querySelector(".js-search-btn").addEventListener("click", () => {
+  const searchVal = document.querySelector(".js-search-bar").value;
+  window.location.href = `amazon.html?search=${searchVal}`;
+});
 
+function renderProducts() {
+  const url = new URL(window.location.href);
+  const searchVal = url.searchParams.get("search");
 
-fetchProducts().then(renderProducts);
+  let filteredProducts = products;
 
-function renderProducts(){
-  const cart = new Cart('cart');
+  if (searchVal) {
+    filteredProducts = products.filter((product) => {
+      const productName = product.name.toLowerCase();
+      const searchedVal = searchVal.toLowerCase();
+      const { keywords } = product;
 
-let productsHtml = "";
-products.forEach((product) => {
-  productsHtml += `<div class="product-container">
+      return (
+        productName.includes(searchedVal) || keywords.includes(searchedVal)
+      );
+    });
+
+    console.log(filteredProducts);
+  }
+
+  let productsHtml = "";
+  filteredProducts.forEach((product) => {
+    productsHtml += `<div class="product-container">
           <div class="product-image-container">
             <img class="product-image" src="${product.image}">
           </div>
@@ -70,68 +91,51 @@ products.forEach((product) => {
 
 
         </div>`;
-        
-});
+  });
 
-document.querySelector(".js-products-grid").innerHTML = productsHtml;
-
-
-
-
+  document.querySelector(".js-products-grid").innerHTML = productsHtml;
 
   const items = cart.displayCartCount();
-    if(items === 0){
-      document.querySelector(".cart-quantity").innerHTML = '';
-    }
-    else{
-      document.querySelector(".cart-quantity").innerHTML = items;
-    }
-
-
-
-document.querySelectorAll(".js-add-cart-btn").forEach((button) => {
-  button.addEventListener("click", () => {
-
-    const {productId} = button.dataset;
-
-    //add to cart button
-      cart.addToCart(productId);
-
-    //added msg display
-    displayAddedMsg(productId);
-
-    //display cart count at right top
-
-    document.querySelector(".cart-quantity").innerHTML = cart.displayCartCount();
-    
-    
-    
-
-  });
-});
-
-
-
-
-
-let timeoutId = {};
-
-function displayAddedMsg(productId){
-
-  const productTimeout = timeoutId[productId];
-
-  if(productTimeout){
-    clearTimeout(productTimeout);
+  if (items === 0) {
+    document.querySelector(".cart-quantity").innerHTML = "";
+  } else {
+    document.querySelector(".cart-quantity").innerHTML = items;
   }
 
-  timeoutId[productId] = setTimeout(()=>{
-    document.querySelector(`.js-add-cart-${productId}`).classList.remove('added-cart-msg');
-  },2000);
+  document.querySelectorAll(".js-add-cart-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const { productId } = button.dataset;
 
-  document.querySelector(`.js-add-cart-${productId}`).classList.add('added-cart-msg');
+      //add to cart button
+      cart.addToCart(productId);
+
+      //added msg display
+      displayAddedMsg(productId);
+
+      //display cart count at right top
+
+      document.querySelector(".cart-quantity").innerHTML =
+        cart.displayCartCount();
+    });
+  });
+
+  let timeoutId = {};
+
+  function displayAddedMsg(productId) {
+    const productTimeout = timeoutId[productId];
+
+    if (productTimeout) {
+      clearTimeout(productTimeout);
+    }
+
+    timeoutId[productId] = setTimeout(() => {
+      document
+        .querySelector(`.js-add-cart-${productId}`)
+        .classList.remove("added-cart-msg");
+    }, 2000);
+
+    document
+      .querySelector(`.js-add-cart-${productId}`)
+      .classList.add("added-cart-msg");
+  }
 }
-
-}
-
-
-

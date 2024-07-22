@@ -8,8 +8,8 @@ describe("Test suite : renderOrderSummary", () => {
 
   let cart;
 
-  beforeAll((done)=>{
-   fetchProducts().then(done);
+  beforeAll(async()=>{
+   await fetchProducts()
   })
 
   beforeEach(() => {
